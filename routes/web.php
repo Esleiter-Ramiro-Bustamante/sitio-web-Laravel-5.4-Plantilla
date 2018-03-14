@@ -29,7 +29,16 @@ Route::get('Contactos', function () {
 
 
 Route::post('messages',function(){
-return request()->all();
+    //enviar un correo
+    $data=request()->all();
+    Mail::send("emails.message",$data,function($message) use ($data){
+        $message->from($data['email'],$data['name'])
+        ->to('esleiter0307@gmail.com')
+        ->subject($data['subject']);
+    });
+
+    // responder al usuario
+return back();
 })->name('messages');
 
 
